@@ -13,7 +13,7 @@ const CountriesTable = ({ countries, loading }) => {
                 {country.name.common}
             </div>
             <div className="country_population">
-                <i class="fas fa-user"></i>{country.population.toLocaleString()}
+                <i className="fas fa-user"></i>{country.population.toLocaleString()}
             </div>
             <div className="country_area">{country.area} km<sup>2</sup></div>
           </div>
