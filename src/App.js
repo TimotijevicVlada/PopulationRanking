@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
+import CountriesTable from "./components/CountriesTable";
+import HeaderCountries from "./components/HeaderCountries";
+import SearchBar from "./components/SearchBar";
 
 function App() {
+  const [countries, setCountries] = useState([]);
+  const [keyword, setKeyword] = useState("");
+
+  const filteredCountries = countries.filter((country) => 
+    country.name.common.toLowerCase().includes(keyword)
+    )
+
+  const fetchCountries = async () => {
+    try {
+      const response = await fetch("https://restcountries.com/v3.1/all");
+      const countryData = await response.json();
+      console.log(countryData);
+      setCountries(countryData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
+  const onInputChange = (e) => {
+    e.preventDefault();
+
+    setKeyword(e.target.value.toLowerCase());
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar countries={countries} onInputChange={onInputChange}/>
+      <HeaderCountries />
+      <CountriesTable countries={filteredCountries}/>
     </div>
   );
 }
