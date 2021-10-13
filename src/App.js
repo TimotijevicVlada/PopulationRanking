@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import CountriesTable from "./components/CountriesTable";
 import HeaderCountries from "./components/HeaderCountries";
 import SearchBar from "./components/SearchBar";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Details from "./components/Details";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [direction, setDirection] = useState("asc");  //"asc" or "desc"
-  const [value, setValue] = useState("common");  //"name" or "population"
+  const [direction, setDirection] = useState("asc"); //"asc" or "desc"
+  const [value, setValue] = useState("common"); //"name" or "population"
 
-  
   //Funtion to sort the data by name or population
   const orderBy = (countries, value, direction) => {
     if (direction === "asc" && value === "population") {
@@ -24,7 +25,9 @@ function App() {
       return [...countries].sort((a, b) => (a[value] > b[value] ? 1 : -1));
     }
     if (direction === "asc" && value === "common") {
-      return [...countries].sort((a, b) => (a.name[value] > b.name[value] ? 1 : -1));
+      return [...countries].sort((a, b) =>
+        a.name[value] > b.name[value] ? 1 : -1
+      );
     }
 
     if (direction === "desc" && value === "population") {
@@ -34,18 +37,19 @@ function App() {
       return [...countries].sort((a, b) => (a[value] > b[value] ? -1 : 1));
     }
     if (direction === "desc" && value === "common") {
-      return [...countries].sort((a, b) => (a.name[value] > b.name[value] ? -1 : 1));
+      return [...countries].sort((a, b) =>
+        a.name[value] > b.name[value] ? -1 : 1
+      );
     }
     return countries;
   };
 
-
   //Variable that we filter and after that send to displaying
-  const orderedCountries = orderBy(countries, value, direction); 
-  
+  const orderedCountries = orderBy(countries, value, direction);
+
   //Funtion to switch direction
   const switchDirection = () => {
-     if (direction === "desc") {
+    if (direction === "desc") {
       setDirection("asc");
     } else {
       setDirection("desc");
@@ -59,15 +63,16 @@ function App() {
   };
 
   //Filter funtion
-  const filteredCountries = orderedCountries.filter((country) => 
-    country.name.common.toLowerCase().includes(keyword) ||
-    country.region.toLowerCase().includes(keyword)
-    )
+  const filteredCountries = orderedCountries.filter(
+    (country) =>
+      country.name.common.toLowerCase().includes(keyword) ||
+      country.region.toLowerCase().includes(keyword)
+  );
 
   //Change keyword for filter
   const onInputChange = (e) => {
     setKeyword(e.target.value.toLowerCase());
-  }
+  };
 
   //Fetch data from api
   const fetchCountries = async () => {
@@ -76,7 +81,7 @@ function App() {
       const countryData = await response.json();
       console.log(countryData);
       setCountries(countryData);
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -86,17 +91,21 @@ function App() {
     fetchCountries();
   }, []);
 
-
-  
-
   return (
-    <div className="App">
-      <Header />
-      <SearchBar countries={countries} onInputChange={onInputChange}/>
-      <HeaderCountries direction={direction} setValueAndDirection={setValueAndDirection}/>
-      <CountriesTable loading={loading} countries={filteredCountries}/>
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+          <SearchBar countries={countries} onInputChange={onInputChange} />
+          <HeaderCountries direction={direction} setValueAndDirection={setValueAndDirection}/>
+          <Switch>
+            <Route path="/" exact>
+              <CountriesTable loading={loading} countries={filteredCountries} />
+            </Route>
+            <Route path="/:id" component={Details}/>
+          </Switch>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
