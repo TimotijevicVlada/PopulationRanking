@@ -95,10 +95,10 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-          <SearchBar countries={countries} onInputChange={onInputChange} />
-          <HeaderCountries direction={direction} setValueAndDirection={setValueAndDirection}/>
           <Switch>
             <Route path="/" exact>
+              <SearchBar countries={countries} onInputChange={onInputChange} />
+              <HeaderCountries direction={direction} setValueAndDirection={setValueAndDirection}/>
               <CountriesTable loading={loading} countries={filteredCountries} />
             </Route>
             <Route path="/:id" component={Details}/>
