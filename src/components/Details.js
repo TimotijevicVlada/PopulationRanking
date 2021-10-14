@@ -39,11 +39,11 @@ const Details = ({ match }) => {
                     <p>{item.region}</p>
                 </div>
                 <div className="flag_bottom">
-                    <div>
+                    <div className="bottom_div">
                         <h3><i className="fas fa-user"></i> {item.population.toLocaleString()}</h3>
                         <span>Population</span>
                     </div>
-                    <div>
+                    <div className="bottom_div">
                         <h3>{item.area.toLocaleString()} km<sup>2</sup></h3>
                         <span>Area</span>
                     </div>
@@ -73,7 +73,7 @@ const Details = ({ match }) => {
                 </div>
                 <div>
                     <span className="gray">Google Maps</span>
-                    <span><a href={item.maps.googleMaps} target="_blank" rel="noreferrer">Link to googleMaps</a></span>
+                    <span><a href={item.maps.googleMaps} target="_blank" rel="noreferrer">Link to Google Maps</a></span>
                 </div>
                 <div className="border_countries">
                     <span className="gray">Neighbouring Countries</span>

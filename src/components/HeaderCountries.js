@@ -9,7 +9,7 @@ const HeaderCountries = ({setValueAndDirection, direction}) => {
             <div className="btn_wrapper">
                 <button onClick={() => setValueAndDirection("population")} className="header_population">Population <i className={direction === "desc" ? "fas fa-chevron-up" : "fas fa-chevron-down"}></i></button>
             </div>
-            <div className="btn_wrapper">
+            <div className="btn_wrapper area">
                 <button onClick={() => setValueAndDirection("area")} className="header_area">Area(km<sup>2</sup>) <i className={direction === "desc" ? "fas fa-chevron-up" : "fas fa-chevron-down"}></i></button>
             </div>
         </div>
