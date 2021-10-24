@@ -21,10 +21,6 @@ const Details = ({ match }) => {
     fetchItem();
   }, [fetchItem]);
 
-
-
-  
-
   return (
     <div className="details_container">
       {loading ? (
